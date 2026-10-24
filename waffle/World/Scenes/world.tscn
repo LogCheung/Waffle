@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://3fvepdksk2j7"]
+
+[ext_resource type="PackedScene" uid="uid://chrg5x56ocgaj" path="res://TileMap/Scenes/tile_world.tscn" id="1_jamle"]
+[ext_resource type="Script" uid="uid://juj3haub6ba1" path="res://World/Scripts/World.cs" id="1_p7567"]
+[ext_resource type="Script" uid="uid://uvfva68ahihc" path="res://World/Scripts/camera_2d.gd" id="2_p7567"]
+
+[node name="World" type="Node2D" unique_id=2134300712]
+script = ExtResource("1_p7567")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=699541556]
+position = Vector2(575, 325)
+zoom = Vector2(0.001, 0.001)
+script = ExtResource("2_p7567")
+
+[node name="TileWorld" parent="." unique_id=1349171862 instance=ExtResource("1_jamle")]
