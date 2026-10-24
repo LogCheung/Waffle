@@ -12,3 +12,5 @@ position = Vector2(575, 325)
 script = ExtResource("2_p7567")
 
 [node name="TileWorld" parent="." unique_id=1349171862 instance=ExtResource("1_jamle")]
+
+[node name="HarvestablesNode" type="Node2D" parent="." unique_id=463758869 groups=["HARVESTABLESNODE"]]

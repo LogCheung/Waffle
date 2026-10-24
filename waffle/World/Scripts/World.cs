@@ -48,7 +48,7 @@ public partial class World : Node2D
                 continue;
             }
 
-            // check neighbors to ensure a good space for start 
+            /* check neighbors to ensure a good space for start 
             for (int i = -2; i <= 2; i++)
             {
                 for (int j = -2; j <= 2; j++)
@@ -61,6 +61,7 @@ public partial class World : Node2D
                     }
                 }
             }
+            */
             
             validStartTile = true;
         }

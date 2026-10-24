@@ -35,9 +35,23 @@ public partial class TileWorld : TileMapLayer
     public void ResetWorld()
     {
         TileMapData = DefaultWorldData;
+
+        Node2D harvestablesNode = (Node2D) GetTree().GetFirstNodeInGroup("HARVESTABLESNODE");
+        foreach (Node child in harvestablesNode.GetChildren()) {
+            child.QueueFree();
+        }
+
+
+
         GenerateClusters(4, 10, ForestCount, Colony.Type.Wood);
-        GenerateClusters(2, 4, 80, Colony.Type.Stone);
+        GenerateClusters(3, 5, 80, Colony.Type.Stone);
         GenerateClusters(1, 3, 70, Colony.Type.Berries);
+
+        GenerateSprinkles(200, Colony.Type.Wood);
+        GenerateSprinkles(200, Colony.Type.Stone);
+        GenerateSprinkles(60, Colony.Type.Berries);
+
+        GenerateHarvestables();
     }
 
 
@@ -71,6 +85,51 @@ public partial class TileWorld : TileMapLayer
             if (waterCells.Contains(cell)) continue;
             SetCell(cell, 0, atlas);
         }
+    }
+    private void GenerateSprinkles(int count, Colony.Type resourceType)
+    {
+        Vector2I atlas = ResourceTileMap[resourceType];
+        List<Vector2I> grassCells = GetGrassCells();
+
+        for (int i = 0; i < count; i++)
+        {
+            if (grassCells.Count <= 0) break;
+            int index = GD.RandRange(0, grassCells.Count);
+
+            try 
+            {
+                SetCell(grassCells[index], 0, atlas);
+            }
+            catch (Exception e)
+            {
+                GD.PrintErr($"Error setting cell : {e.Message}");
+            }
+
+
+            grassCells.RemoveAt(index);
+        }
+    }
+
+    private void GenerateHarvestables()
+    {
+        List<Vector2I> usedCells;
+        foreach (Colony.Type key in ResourceTileMap.Keys) {
+            usedCells = GetUsedCellsById(0,ResourceTileMap.GetValueOrDefault(key)).ToList();
+
+            foreach (Vector2I cell in usedCells)
+            {
+                String path = "res://Resources/Scenes/harvestable.tscn";
+                PackedScene scene = GD.Load<PackedScene>(path);
+                Harvestable newNode = scene.Instantiate<Harvestable>();
+                Node2D parentNode = (Node2D) GetTree().GetFirstNodeInGroup("HARVESTABLESNODE");
+
+                newNode.GlobalPosition = MapToLocal(cell);
+                newNode.type = key;
+                parentNode.AddChild(newNode);
+            }
+        }
+
+        
     }
 
     public List<Vector2I> GetGrassCells()
