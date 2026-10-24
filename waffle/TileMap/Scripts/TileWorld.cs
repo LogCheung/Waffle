@@ -6,18 +6,12 @@ using System.Linq;
 //[Tool]
 public partial class TileWorld : TileMapLayer
 {
-    public enum ResourceType
-    {
-        Tree, 
-        Stone, 
-        Berries
-    }
 
-    public static Dictionary<ResourceType, Vector2I> ResourceTileMap = new Dictionary<ResourceType, Vector2I>()
+    public static Dictionary<Colony.Type, Vector2I> ResourceTileMap = new Dictionary<Colony.Type, Vector2I>()
     {
-        {ResourceType.Tree, new Vector2I(2,2)},
-        {ResourceType.Stone, new Vector2I(3,0)},
-        {ResourceType.Berries, new Vector2I(3,1)}
+        {Colony.Type.Wood, new Vector2I(2,2)},
+        {Colony.Type.Stone, new Vector2I(3,0)},
+        {Colony.Type.Berries, new Vector2I(3,1)}
     };
 
 
@@ -35,63 +29,20 @@ public partial class TileWorld : TileMapLayer
         AStar.Update();
         WorldSize = new Vector2(128,128);
 
-        ResetWorld();
+        // map generation called in world.cs
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (@event.IsActionReleased("ui_accept"))
-        {
-            ResetWorld();
-        }
-    }
-
-    private void ResetWorld()
+    public void ResetWorld()
     {
         TileMapData = DefaultWorldData;
-        GenerateClusters(4, 10, ForestCount, ResourceType.Tree);
-        GenerateClusters(2, 4, 80, ResourceType.Stone);
-        GenerateClusters(1, 3, 70, ResourceType.Berries);
+        GenerateClusters(4, 10, ForestCount, Colony.Type.Wood);
+        GenerateClusters(2, 4, 80, Colony.Type.Stone);
+        GenerateClusters(1, 3, 70, Colony.Type.Berries);
     }
 
-    private void GenerateForests()
-    {
-        // min size for a forest: 4x4
-        List<Vector2I> usedCells = new List<Vector2I>();
-        List<Vector2I> grassCells = GetUsedCellsById(0, new Vector2I(1,2)).ToList();
-        for(int i = 0; i < ForestCount; i++)
-        {
-            int width = GD.RandRange(4, 10);
-            int height = GD.RandRange(4, 10);
-            int x = GD.RandRange(0, (int)WorldSize.X - width);
-            int y = GD.RandRange(0, (int)WorldSize.Y - height);
-    
-            for(int j = 0; j < width; j++)
-            {
-                for(int k = 0; k < height; k++)
-                {
-                    if (GD.RandRange(0,10) == 0) continue; // add some randomness to the forest
-                    usedCells.Add(new Vector2I(x + j,y + k));
-
-                    // add randomness at edges
-                    if (j == 0 || j == width - 1 || k == 0 || k == height - 1)
-                    {
-                        if (GD.RandRange(0,2) == 0) continue;
-                        usedCells.Add(new Vector2I(x + j,y + k));
-                    }
-                }
-            }
-        }
-
-        foreach (Vector2I cell in usedCells)
-        {
-            if (!grassCells.Contains(cell)) continue;
-            SetCell(cell, 0, new Vector2I(2,2));
-        }
-    }
 
     private void GenerateClusters(int minDimension, int maxDimension,
-    int clusterCount, ResourceType resourceType) 
+    int clusterCount, Colony.Type resourceType) 
     {
         Vector2I atlas = ResourceTileMap[resourceType];
 
@@ -119,6 +70,12 @@ public partial class TileWorld : TileMapLayer
         {
             if (waterCells.Contains(cell)) continue;
             SetCell(cell, 0, atlas);
+        }
     }
-}
+
+    public List<Vector2I> GetGrassCells()
+    {
+        return GetUsedCellsById(0, new Vector2I(1,2)).ToList();
+    }
+    
 }

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bmflcwbve21k"]
+
+[ext_resource type="Script" uid="uid://5tp1eqwclt0q" path="res://Resources/Scripts/Harvestable.cs" id="1_fyo3o"]
+[ext_resource type="Texture2D" uid="uid://c10bnfwdh2ec0" path="res://Resources/Assets/gatherables.png" id="2_8k5ih"]
+
+[node name="Harvestable" type="StaticBody2D" unique_id=1185450821]
+script = ExtResource("1_fyo3o")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1467544233]
+texture = ExtResource("2_8k5ih")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1051992009]

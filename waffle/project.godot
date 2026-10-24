@@ -15,6 +15,10 @@ run/main_scene="uid://3fvepdksk2j7"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Colony="*uid://b06t1r7pr6o3i"
+
 [display]
 
 window/stretch/mode="canvas_items"
@@ -68,4 +72,5 @@ camera_zoom_out={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"

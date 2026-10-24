@@ -9,7 +9,6 @@ script = ExtResource("1_p7567")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=699541556]
 position = Vector2(575, 325)
-zoom = Vector2(0.001, 0.001)
 script = ExtResource("2_p7567")
 
 [node name="TileWorld" parent="." unique_id=1349171862 instance=ExtResource("1_jamle")]
