@@ -9,4 +9,9 @@ public partial class Colony : Node
         Stone, 
         Berries
     }
+
+    public enum Job
+    {
+        Laborer
+    }
 }

@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Numerics;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -32,6 +31,7 @@ public partial class World : Node2D
     }
     private async void StartGame()
     {
+        RemoveChildren(GetTree().GetFirstNodeInGroup("CITIZENSNODE")); // remove citizens
         tileWorld.ResetWorld();
 
         List<Vector2I> grassCells = tileWorld.GetGrassCells();
@@ -69,7 +69,37 @@ public partial class World : Node2D
         tileWorld.SetCell(startTile,0,new Vector2I(0,1));
 
         cam.Position = tileWorld.MapToLocal(startTile);
+        AddStartingCitizens(tileWorld.MapToLocal(startTile), 4);
 
     }
+
+    private void AddStartingCitizens(Vector2 startPos, int count)
+    {
+        double distance = 100.0;
+        int numOfCitizens = count;
+
+        for (int i = 0; i < numOfCitizens; i++)
+        {
+            PackedScene scene = GD.Load<PackedScene>("res://Units/Scenes/citizen.tscn");
+            Citizen citizen = (Citizen) scene.Instantiate();
+            Node2D citizenNode = (Node2D) GetTree().GetFirstNodeInGroup("CITIZENSNODE");
+
+            float randX = (float) GD.RandRange(-distance,distance);
+            float randY = (float) GD.RandRange(-distance,distance);
+
+            citizen.GlobalPosition = startPos + new Vector2(randX, randY);
+            citizenNode.AddChild(citizen);
+            
+        } 
+        
+    }
+    private void RemoveChildren(Node node)
+    {
+        foreach (Node child in node.GetChildren())
+        {
+            child.QueueFree();
+        }
+    }
+
 
 }

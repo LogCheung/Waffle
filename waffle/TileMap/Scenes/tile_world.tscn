@@ -4,23 +4,52 @@
 [ext_resource type="Script" uid="uid://duo5o86p1pkuc" path="res://TileMap/Scripts/TileWorld.cs" id="2_leqhe"]
 [ext_resource type="Texture2D" uid="uid://co88u0g073bk8" path="res://TileMap/Assets/hover.png" id="3_jb8ou"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_jb8ou"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_h7jyf"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_fl1qv"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_c7ucq"]
+vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
+agent_radius = 0.0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_leqhe"]
 texture = ExtResource("1_5gggc")
 texture_region_size = Vector2i(64, 64)
 2:1/0 = 0
 2:0/0 = 0
 3:0/0 = 0
+3:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_fl1qv")
 3:1/0 = 0
+3:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_c7ucq")
 0:0/0 = 0
 1:0/0 = 0
 1:1/0 = 0
 0:1/0 = 0
 0:2/0 = 0
 1:2/0 = 0
+1:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_jb8ou")
 2:2/0 = 0
+2:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_h7jyf")
 
 [sub_resource type="TileSet" id="TileSet_krodr"]
 tile_size = Vector2i(64, 64)
+navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_leqhe")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_h7jyf"]

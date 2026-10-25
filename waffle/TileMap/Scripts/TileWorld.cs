@@ -37,8 +37,8 @@ public partial class TileWorld : TileMapLayer
         TileMapData = DefaultWorldData;
 
         Node2D harvestablesNode = (Node2D) GetTree().GetFirstNodeInGroup("HARVESTABLESNODE");
-        foreach (Node child in harvestablesNode.GetChildren()) {
-            child.QueueFree();
+        foreach (Harvestable child in harvestablesNode.GetChildren()) {
+            child.Remove();
         }
 
 

@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://juj3haub6ba1" path="res://World/Scripts/World.cs" id="1_p7567"]
 [ext_resource type="PackedScene" uid="uid://nq375v1f28kg" path="res://UI/Scenes/UI.tscn" id="2_fdxdb"]
 [ext_resource type="Script" uid="uid://uvfva68ahihc" path="res://World/Scripts/camera_2d.gd" id="2_p7567"]
+[ext_resource type="Script" uid="uid://r7remnfqyl67" path="res://World/Scripts/JobManager.cs" id="3_t7din"]
 [ext_resource type="Script" uid="uid://rahjknbql6ey" path="res://World/Scripts/InputNode.cs" id="5_xvb7p"]
 
 [node name="World" type="Node2D" unique_id=2134300712 groups=["WORLD"]]
@@ -11,6 +12,9 @@ script = ExtResource("1_p7567")
 
 [node name="InputNode" type="Node" parent="." unique_id=220896369 groups=["INPUTNODE"]]
 script = ExtResource("5_xvb7p")
+
+[node name="JobManager" type="Node" parent="." unique_id=1446594436 groups=["JOBMANAGER"]]
+script = ExtResource("3_t7din")
 
 [node name="UI" parent="." unique_id=1778856773 instance=ExtResource("2_fdxdb")]
 
@@ -21,3 +25,5 @@ script = ExtResource("2_p7567")
 [node name="TileWorld" parent="." unique_id=1349171862 instance=ExtResource("1_jamle")]
 
 [node name="HarvestablesNode" type="Node2D" parent="." unique_id=463758869 groups=["HARVESTABLESNODE"]]
+
+[node name="CitizensNode" type="Node2D" parent="." unique_id=1803922852 groups=["CITIZENSNODE"]]
