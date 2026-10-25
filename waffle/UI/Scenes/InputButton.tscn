@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://rp74u7d0msil"]
+
+[ext_resource type="Script" uid="uid://clapxh6h3cqcp" path="res://UI/Scripts/InputButton.cs" id="1_4hbgr"]
+
+[node name="InputButton" type="Button" unique_id=700396121 groups=["BUTTON"]]
+offset_left = 364.0
+offset_top = 649.0
+offset_right = 414.0
+offset_bottom = 691.0
+script = ExtResource("1_4hbgr")

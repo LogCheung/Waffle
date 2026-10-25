@@ -21,6 +21,8 @@ Colony="*uid://b06t1r7pr6o3i"
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -31,6 +33,9 @@ project/assembly_name="Waffle"
 [global_group]
 
 HARVESTABLESNODE=""
+WORLD=""
+UI=""
+INPUTNODE=""
 
 [input]
 
@@ -67,6 +72,11 @@ camera_zoom_in={
 camera_zoom_out={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(395, 25),"global_position":Vector2(409, 98),"factor":1.0,"button_index":5,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
+select={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(336, 9),"global_position":Vector2(350, 82),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 

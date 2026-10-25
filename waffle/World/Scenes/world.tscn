@@ -2,10 +2,17 @@
 
 [ext_resource type="PackedScene" uid="uid://chrg5x56ocgaj" path="res://TileMap/Scenes/tile_world.tscn" id="1_jamle"]
 [ext_resource type="Script" uid="uid://juj3haub6ba1" path="res://World/Scripts/World.cs" id="1_p7567"]
+[ext_resource type="PackedScene" uid="uid://nq375v1f28kg" path="res://UI/Scenes/UI.tscn" id="2_fdxdb"]
 [ext_resource type="Script" uid="uid://uvfva68ahihc" path="res://World/Scripts/camera_2d.gd" id="2_p7567"]
+[ext_resource type="Script" uid="uid://rahjknbql6ey" path="res://World/Scripts/InputNode.cs" id="5_xvb7p"]
 
-[node name="World" type="Node2D" unique_id=2134300712]
+[node name="World" type="Node2D" unique_id=2134300712 groups=["WORLD"]]
 script = ExtResource("1_p7567")
+
+[node name="InputNode" type="Node" parent="." unique_id=220896369 groups=["INPUTNODE"]]
+script = ExtResource("5_xvb7p")
+
+[node name="UI" parent="." unique_id=1778856773 instance=ExtResource("2_fdxdb")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=699541556]
 position = Vector2(575, 325)
