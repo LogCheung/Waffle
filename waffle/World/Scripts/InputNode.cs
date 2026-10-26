@@ -107,7 +107,7 @@ public partial class InputNode : Node
             if (Harvestable.ObjectMap.ContainsKey(cell))
             {
                 Harvestable obj = Harvestable.ObjectMap.GetValueOrDefault(cell);
-                obj.Remove();
+                obj.CreateTask();
             }
         }
     }

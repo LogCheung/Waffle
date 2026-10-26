@@ -3,4 +3,20 @@ using System;
 
 public partial class Task : Node
 {
+    public enum Type
+    {
+        FETCH,
+        PRODUCE
+    }
+     [Export] public ProductionObject sourceObject {get;set;} 
+     [Export] public Type type {get;set;}
+     [Export] public Citizen worker {get;set;}
+
+     public Vector2 targetPos {get;set;}
+
+     public Task(ProductionObject source, Type type)
+    {
+        sourceObject = source;
+        this.type = type;
+    }
 }

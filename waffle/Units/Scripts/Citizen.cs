@@ -46,11 +46,7 @@ public partial class Citizen : CharacterBody2D
         {
             case Action.IDLE:
                 if (TryFindTask()) break;
-
-                if (targetPos == default)
-                {
-                    targetPos = GetWanderDestination();
-                }
+                if (targetPos == default) targetPos = GetWanderDestination();
 
                 // reached destination case
                 if (GlobalPosition.DistanceTo(targetPos) < 8)
@@ -61,6 +57,24 @@ public partial class Citizen : CharacterBody2D
 
                 break;
             case Action.TASK:
+                if (currentTask == null)
+                {
+                    currentAction = Action.IDLE;
+                    return;
+                }
+                targetPos = currentTask.targetPos;
+
+
+                // reached destination case
+                if (GlobalPosition.DistanceTo(targetPos) < 8)
+                {
+                    if (currentTask is ProduceTask)
+                    {
+                        ProduceTask task = currentTask as ProduceTask;
+                        task.AddProgress(0.5f);
+                    }
+                }
+
                 break;
         }
 
@@ -72,6 +86,7 @@ public partial class Citizen : CharacterBody2D
         if (targetPos == default) return;
 
         nav.TargetPosition = targetPos;
+
 
         Velocity = speed * GlobalPosition.DirectionTo(nav.GetNextPathPosition());
 
@@ -100,11 +115,15 @@ public partial class Citizen : CharacterBody2D
         }
         if (jobManager.TaskDict.GetValueOrDefault(job).Count >= 1)
         {
+            wanderTimer.Stop();
             currentTask = jobManager.TaskDict.GetValueOrDefault(job).First();
+            jobManager.TaskDict.GetValueOrDefault(job).Remove(currentTask);
+            currentTask.worker = this;
             currentAction = Action.TASK;
             return true;
         }
 
+        currentAction = Action.IDLE;
         return false;
     }
 
