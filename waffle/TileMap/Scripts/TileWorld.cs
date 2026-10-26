@@ -7,11 +7,11 @@ using System.Linq;
 public partial class TileWorld : TileMapLayer
 {
 
-    public static Dictionary<Colony.Type, Vector2I> ResourceTileMap = new Dictionary<Colony.Type, Vector2I>()
+    public static Dictionary<Colony.ResourceType, Vector2I> ResourceTileMap = new Dictionary<Colony.ResourceType, Vector2I>()
     {
-        {Colony.Type.Wood, new Vector2I(2,2)},
-        {Colony.Type.Stone, new Vector2I(3,0)},
-        {Colony.Type.Berries, new Vector2I(3,1)}
+        {Colony.ResourceType.Wood, new Vector2I(2,2)},
+        {Colony.ResourceType.Stone, new Vector2I(3,0)},
+        {Colony.ResourceType.Berries, new Vector2I(3,1)}
     };
 
 
@@ -43,20 +43,20 @@ public partial class TileWorld : TileMapLayer
 
 
 
-        GenerateClusters(4, 10, ForestCount, Colony.Type.Wood);
-        GenerateClusters(3, 5, 80, Colony.Type.Stone);
-        GenerateClusters(1, 3, 70, Colony.Type.Berries);
+        GenerateClusters(4, 10, ForestCount, Colony.ResourceType.Wood);
+        GenerateClusters(3, 5, 80, Colony.ResourceType.Stone);
+        GenerateClusters(1, 3, 70, Colony.ResourceType.Berries);
 
-        GenerateSprinkles(200, Colony.Type.Wood);
-        GenerateSprinkles(200, Colony.Type.Stone);
-        GenerateSprinkles(60, Colony.Type.Berries);
+        GenerateSprinkles(200, Colony.ResourceType.Wood);
+        GenerateSprinkles(200, Colony.ResourceType.Stone);
+        GenerateSprinkles(60, Colony.ResourceType.Berries);
 
         GenerateHarvestables();
     }
 
 
     private void GenerateClusters(int minDimension, int maxDimension,
-    int clusterCount, Colony.Type resourceType) 
+    int clusterCount, Colony.ResourceType resourceType) 
     {
         Vector2I atlas = ResourceTileMap[resourceType];
 
@@ -86,7 +86,7 @@ public partial class TileWorld : TileMapLayer
             SetCell(cell, 0, atlas);
         }
     }
-    private void GenerateSprinkles(int count, Colony.Type resourceType)
+    private void GenerateSprinkles(int count, Colony.ResourceType resourceType)
     {
         Vector2I atlas = ResourceTileMap[resourceType];
         List<Vector2I> grassCells = GetGrassCells();
@@ -113,7 +113,7 @@ public partial class TileWorld : TileMapLayer
     private void GenerateHarvestables()
     {
         List<Vector2I> usedCells;
-        foreach (Colony.Type key in ResourceTileMap.Keys) {
+        foreach (Colony.ResourceType key in ResourceTileMap.Keys) {
             usedCells = GetUsedCellsById(0,ResourceTileMap.GetValueOrDefault(key)).ToList();
 
             foreach (Vector2I cell in usedCells)

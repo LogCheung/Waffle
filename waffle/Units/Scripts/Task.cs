@@ -14,7 +14,7 @@ public partial class Task : Node
 
      public Vector2 targetPos {get;set;}
 
-     public Task(ProductionObject source, Type type)
+     public Task(ProductionObject source)
     {
         sourceObject = source;
         this.type = type;

@@ -6,7 +6,7 @@ public partial class ProduceTask : Task
     public float progress {get;set;}
     // Source building needs labor to produce good
     // Once task is completed, source building will produce respective good
-    public ProduceTask(ProductionObject source, Type type) : base(source,type)
+    public ProduceTask(ProductionObject source) : base(source)
     {
         targetPos = source.GlobalPosition;
     }

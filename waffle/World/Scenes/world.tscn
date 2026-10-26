@@ -27,3 +27,5 @@ script = ExtResource("2_p7567")
 [node name="HarvestablesNode" type="Node2D" parent="." unique_id=463758869 groups=["HARVESTABLESNODE"]]
 
 [node name="CitizensNode" type="Node2D" parent="." unique_id=1803922852 groups=["CITIZENSNODE"]]
+
+[node name="BuildingNode" type="Node2D" parent="." unique_id=598500044 groups=["BUILDINGNODE"]]

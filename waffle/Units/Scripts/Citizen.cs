@@ -66,12 +66,19 @@ public partial class Citizen : CharacterBody2D
 
 
                 // reached destination case
+                GD.Print(GlobalPosition.DistanceTo(targetPos));
                 if (GlobalPosition.DistanceTo(targetPos) < 8)
                 {
                     if (currentTask is ProduceTask)
                     {
                         ProduceTask task = currentTask as ProduceTask;
                         task.AddProgress(0.5f);
+                    }
+                    if (currentTask is FetchTask)
+                    {
+                        FetchTask task = currentTask as FetchTask;
+                        if (!task.resourceRetrieved)  task.OnReosurceRetrieved();
+                        else task.DeliverResource();
                     }
                 }
 

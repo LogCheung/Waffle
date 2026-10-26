@@ -65,12 +65,12 @@ public partial class World : Node2D
             
             validStartTile = true;
         }
-        GD.Print(tileWorld.GetCellAtlasCoords(startTile));
         tileWorld.SetCell(startTile,0,new Vector2I(0,1));
 
-        cam.Position = tileWorld.MapToLocal(startTile);
-        AddStartingCitizens(tileWorld.MapToLocal(startTile), 4);
-
+        Vector2 startPos = tileWorld.MapToLocal(startTile);
+        cam.Position = startPos;
+        AddStartingCitizens(startPos, 4);
+        AddStartingBuilding(startPos);
     }
 
     private void AddStartingCitizens(Vector2 startPos, int count)
@@ -92,6 +92,15 @@ public partial class World : Node2D
             
         } 
         
+    }
+    private void AddStartingBuilding(Vector2 startPos)
+    {
+        PackedScene scene = GD.Load<PackedScene>("res://Buildings/Scenes/storage_building.tscn");
+        StorageBuilding building = (StorageBuilding) scene.Instantiate();
+        Node2D buildingNode = (Node2D) GetTree().GetFirstNodeInGroup("BUILDINGNODE");
+
+        building.GlobalPosition = startPos + new Vector2(64,64);
+        buildingNode.AddChild(building);
     }
     private void RemoveChildren(Node node)
     {

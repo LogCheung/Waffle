@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class JobManager : Node
 {
@@ -14,9 +15,15 @@ public partial class JobManager : Node
         }
     }
 
+    public override void _Process(double delta)
+    {
+        //GD.Print(string.Join(", ", TaskDict.Select(kvp => $"{kvp.Key}={kvp.Value.Count}")));
+    }
+
+
 
     public void AddTask(Colony.Job job, Task task)
-    {
+    {   
         TaskDict.GetValueOrDefault(job).Add(task);
     }
 }
