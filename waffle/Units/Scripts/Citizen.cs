@@ -18,6 +18,7 @@ public partial class Citizen : CharacterBody2D
     [Export] public Task currentTask { get; set; }
     [Export] public Action currentAction { get; set; }
     [Export] public float speed {get;set;}
+    [Export] public Drop drop {get;set;}
     public Vector2 targetPos {get;set;}
     private Timer wanderTimer;
     private JobManager jobManager;
@@ -63,10 +64,12 @@ public partial class Citizen : CharacterBody2D
                     return;
                 }
                 targetPos = currentTask.targetPos;
+                // carry resource overhead
+                if (drop != null) drop.GlobalPosition = GlobalPosition + new Vector2(0,-30);
 
 
                 // reached destination case
-                GD.Print(GlobalPosition.DistanceTo(targetPos));
+                
                 if (GlobalPosition.DistanceTo(targetPos) < 8)
                 {
                     if (currentTask is ProduceTask)

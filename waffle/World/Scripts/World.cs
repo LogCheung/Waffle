@@ -70,7 +70,8 @@ public partial class World : Node2D
         Vector2 startPos = tileWorld.MapToLocal(startTile);
         cam.Position = startPos;
         AddStartingCitizens(startPos, 4);
-        AddStartingBuilding(startPos);
+        AddStartingBuilding(startPos + new Vector2(64,64));
+        AddStartingBuilding(startPos - new Vector2(64,64));
     }
 
     private void AddStartingCitizens(Vector2 startPos, int count)
@@ -99,7 +100,7 @@ public partial class World : Node2D
         StorageBuilding building = (StorageBuilding) scene.Instantiate();
         Node2D buildingNode = (Node2D) GetTree().GetFirstNodeInGroup("BUILDINGNODE");
 
-        building.GlobalPosition = startPos + new Vector2(64,64);
+        building.GlobalPosition = startPos;
         buildingNode.AddChild(building);
     }
     private void RemoveChildren(Node node)

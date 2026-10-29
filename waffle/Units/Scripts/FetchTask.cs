@@ -10,6 +10,7 @@ public partial class FetchTask : Task
     // source & target can be same if it is a storage building wanting to take in resources
     // task will also handle returning resource to source building
     [Export] public Colony.ResourceType resourceType {get;set;}
+    [Export] public Drop drop {get;set;}
     public bool resourceRetrieved {get;set;}
     
 
@@ -17,14 +18,16 @@ public partial class FetchTask : Task
     {
         resourceRetrieved = false;
         // find resource
-        if (drop == null) targetPos = FindResource(type).GlobalPosition;
-        else targetPos = drop.GlobalPosition;
+        this.drop = drop == null ? (Drop) FindResource(type) : drop;
+        
+        targetPos = drop.GlobalPosition;
     }
 
     public void OnReosurceRetrieved()
     {
         resourceRetrieved = true;
         targetPos = sourceObject.GlobalPosition; 
+        worker.drop = this.drop;
     }
 
     private Node2D FindResource(Colony.ResourceType type)
@@ -40,6 +43,8 @@ public partial class FetchTask : Task
     public void DeliverResource()
     {
         worker.currentTask = null;
+        worker.drop = null;
+        drop.QueueFree();
         Building source = sourceObject as Building;
         source.AddResourceToInventory(resourceType,1);
         GD.Print("delivered");
