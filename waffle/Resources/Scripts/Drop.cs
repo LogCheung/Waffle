@@ -9,6 +9,7 @@ public partial class Drop : StaticBody2D
     [Export] public float time {get;set;}
     [Export] public Colony.ResourceType type {get;set;}
     [Export] public bool taskCreatedForDrop {get;set;}
+    [Export] public bool forStorageRetrieval {get;set;}
     private bool launching = false;
     private float timeSinceLaunch {get;set;}
     private Vector2 dir {get;set;}
@@ -18,7 +19,9 @@ public partial class Drop : StaticBody2D
     {
         sprite = GetNode<Sprite2D>("Sprite2D");
         sprite.Frame = (int) type;
-
+        
+        if (forStorageRetrieval) return;
+        
         speed = 100.0f;
         time = .25f;
 

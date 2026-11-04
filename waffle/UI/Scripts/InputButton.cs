@@ -5,6 +5,7 @@ public partial class InputButton : Button
 {
     public enum Type {
         None,
+        House,
         SelectHarvest,
 
     }

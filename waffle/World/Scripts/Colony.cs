@@ -7,7 +7,15 @@ public partial class Colony : Node
     {
         Wood, 
         Stone, 
-        Berries
+        Berries,
+        None
+    }
+
+    public enum BuildType {
+        // correspond with InputButton types,
+        // InputButton has additional types for non-building options
+        None,
+        House,
     }
 
     public enum Job

@@ -7,4 +7,11 @@
 script = ExtResource("1_fr6qa")
 
 [node name="InputButton" parent="." unique_id=700396121 instance=ExtResource("2_67pyh")]
+type = 2
+
+[node name="InputButton2" parent="." unique_id=1755986031 instance=ExtResource("2_67pyh")]
+offset_left = 451.0
+offset_top = 646.0
+offset_right = 501.0
+offset_bottom = 688.0
 type = 1

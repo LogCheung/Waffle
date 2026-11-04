@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using Godot.Collections;
 using System.Numerics;
 using System.Reflection;
+using System.Text.Json.Serialization.Metadata;
 
 public partial class InputNode : Node
 {
     [Signal] public delegate void InputTypeRequestedEventHandler(InputButton.Type type);
     [Export] public InputButton.Type type;
+    [Export] public bool dragging = false;
     private World world;
     private TileWorld tileWorld;
     private TileMapLayer hoverTiles;
@@ -38,15 +40,68 @@ public partial class InputNode : Node
     private void HandleRequestedInput()
     {
         Action resultMethod;
+        Vector2I startTile = new Vector2I(-1,-1);
+        int xDim = 0;
+        int yDim = 0;
         switch (this.type)
         {
             case InputButton.Type.SelectHarvest:
                 resultMethod = () => HarvestTiles(hoverTiles.GetUsedCells());
                 DragSelectedArea(resultMethod);
+                dragging = true;
+                break;
+            case InputButton.Type.House:
+                dragging = false;
+                xDim = BuildSettings.settings[this.type]["xDim"];
+                yDim = BuildSettings.settings[this.type]["yDim"];
+                startTile = tileWorld.LocalToMap(tileWorld.GetLocalMousePosition() + new Godot.Vector2(32,32));
+                startTile += new Vector2I(-xDim/2,-yDim/2); // offset
+                HighlightArea(xDim,yDim,startTile);
                 break;
             default:
-                break;
+                resultMethod = () => GD.Print("No input type selected");
+                return;
         }
+
+        if (Input.IsActionJustPressed("select") && !dragging)
+        {
+            startTile -= new Vector2I(-xDim/2,-yDim/2);
+            resultMethod = () => CreateBuilding(xDim,yDim, startTile);
+            resultMethod?.Invoke();
+            OnInputCompleted();
+        }
+
+        if (Input.IsActionJustPressed("cancel"))
+        {
+           OnInputCompleted();
+        }
+
+
+    }
+
+    private void OnInputCompleted()
+    {
+        ClearHoverTiles();
+        dragging = false;
+        type = InputButton.Type.None;
+    }
+
+    private void HighlightArea(int xDim, int yDim, Vector2I tile)
+    {
+        // clear tiles
+        ClearHoverTiles();
+
+        Array<Vector2I> cells = new Array<Vector2I>();
+
+        for (int x = 0; x < xDim ; x++)
+        {
+            for (int y = 0; y < yDim ; y++)
+            {
+                cells.Add(tile + new Vector2I(x,y));
+            }
+        }
+
+        hoverTiles.SetCellsTerrainConnect(cells,0,0);
     }
 
     private void DragSelectedArea(System.Action resultMethod)
@@ -60,7 +115,7 @@ public partial class InputNode : Node
         {
             endTile = tileWorld.LocalToMap(tileWorld.GetLocalMousePosition());
             // highlight tiles
-            HighlightTiles(startTile, endTile);
+            DragHighlightTiles(startTile, endTile);
         }
         if (Input.IsActionJustReleased("select"))
         {
@@ -69,17 +124,14 @@ public partial class InputNode : Node
 
             // putting tiles just to call function
             // but the arugments will not be used, it will just clear
-            HighlightTiles(startTile,endTile,true);  
+            DragHighlightTiles(startTile,endTile,true);  
         }
     }
 
-    private void HighlightTiles(Vector2I start, Vector2I end, bool clear = false)
+    private void DragHighlightTiles(Vector2I start, Vector2I end, bool clear = false)
     {
         // clear
-        foreach (Vector2I cell in hoverTiles.GetUsedCells())
-        {
-            hoverTiles.SetCell(cell,-1);
-        }
+        ClearHoverTiles();
         if (clear) return;
 
         Array<Vector2I> cells = new Array<Vector2I>();
@@ -100,6 +152,14 @@ public partial class InputNode : Node
         hoverTiles.SetCellsTerrainConnect(cells,0,0);
     }
 
+    private void ClearHoverTiles()
+    {
+        foreach (Vector2I cell in hoverTiles.GetUsedCells())
+        {
+            hoverTiles.SetCell(cell,-1);
+        }
+    }
+
     private void HarvestTiles(Array<Vector2I> cells)
     {
         foreach(Vector2I cell in cells)
@@ -111,5 +171,18 @@ public partial class InputNode : Node
             }
         }
     }
+
+    private void CreateBuilding(int xDim, int yDim, Vector2I tile)
+    {
+        PackedScene scene = GD.Load<PackedScene>("res://Buildings/Scenes/construction.tscn");
+        Construction construction = (Construction) scene.Instantiate();
+        Node2D buildingNode = (Node2D) world.GetNode("BuildingNode");
+        construction.inputBuildType = this.type;
+        construction.GlobalPosition = tileWorld.MapToLocal(tile) - new Godot.Vector2(32,32);
+
+        buildingNode.AddChild(construction);
+    }
+
+
 
 }

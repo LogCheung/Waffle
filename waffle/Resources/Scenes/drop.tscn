@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dbpigtfmbl6bg" path="res://Resources/Assets/drops.png" id="2_2dbi4"]
 
 [node name="Drop" type="StaticBody2D" unique_id=2070259677 groups=["DROP"]]
+z_index = 3
 script = ExtResource("1_8kmmi")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1025322598]

@@ -16,7 +16,7 @@ public partial class Harvestable: ProductionObject
         ObjectMap.Add(this.tile, this);
         sprite = GetNode<Sprite2D>("Sprite2D");
         jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
-        sprite.Frame = (int) type;
+        sprite.Frame = (int) type ;
 
         MatchType();
     }

@@ -24,4 +24,9 @@ public partial class Helper : Node
         }
         return closest;
     }
+
+    public List<Node> GetNodesInGroup(string groupName)
+    {
+        return GetTree().GetNodesInGroup(groupName).ToList();
+    }
 }

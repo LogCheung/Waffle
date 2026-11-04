@@ -11,6 +11,7 @@ public partial class Task : Node
      [Export] public ProductionObject sourceObject {get;set;} 
      [Export] public Type type {get;set;}
      [Export] public Citizen worker {get;set;}
+     [Export] public bool failed {get;set;}
 
      public Vector2 targetPos {get;set;}
 

@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="BuildSettings" format=3 uid="uid://d0l3k0wshkk2h"]
+
+[ext_resource type="Script" uid="uid://cf1yc658twkv6" path="res://Buildings/Scripts/BuildSettings.cs" id="1_qu74b"]
+
+[resource]
+script = ExtResource("1_qu74b")

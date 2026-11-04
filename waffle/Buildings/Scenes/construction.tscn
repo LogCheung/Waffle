@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c3jehbjch0hgq"]
+
+[ext_resource type="Script" uid="uid://cwjxa2b6hqdpi" path="res://Buildings/Scripts/Construction.cs" id="1_6j6br"]
+[ext_resource type="Texture2D" uid="uid://d13p4ot25wox5" path="res://Buildings/Assets/constructionSite.png" id="2_1k4if"]
+
+[node name="construction" type="StaticBody2D" unique_id=1177764209]
+script = ExtResource("1_6j6br")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=686716894]
+texture = ExtResource("2_1k4if")

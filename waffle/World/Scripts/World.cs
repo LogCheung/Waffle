@@ -69,7 +69,7 @@ public partial class World : Node2D
 
         Vector2 startPos = tileWorld.MapToLocal(startTile);
         cam.Position = startPos;
-        AddStartingCitizens(startPos, 4);
+        AddStartingCitizens(startPos, 12);
         AddStartingBuilding(startPos + new Vector2(64,64));
         AddStartingBuilding(startPos - new Vector2(64,64));
     }

@@ -17,10 +17,16 @@ public partial class FetchTask : Task
     public FetchTask(ProductionObject source, Colony.ResourceType type, Drop drop = null) : base(source)
     {
         resourceRetrieved = false;
+        resourceType = type;
         // find resource
         this.drop = drop == null ? (Drop) FindResource(type) : drop;
         
-        targetPos = drop.GlobalPosition;
+        if (this.drop == null)
+        {
+            failed = true;
+            return;
+        }
+        targetPos = this.drop.GlobalPosition;
     }
 
     public void OnReosurceRetrieved()
@@ -28,25 +34,46 @@ public partial class FetchTask : Task
         resourceRetrieved = true;
         targetPos = sourceObject.GlobalPosition; 
         worker.drop = this.drop;
+        this.drop.Visible = true;
     }
 
     private Node2D FindResource(Colony.ResourceType type)
     {
-        List<Node> drops = GetTree().GetNodesInGroup("DROP").ToList();
+        List<Node> drops = sourceObject.GetTree().GetNodesInGroup("DROP").ToList(); // use something in the tree
+        drops = drops.Where(d => !((Drop) d).forStorageRetrieval).ToList();
         Drop drop = (Drop) Helper.FindClosestNode(sourceObject.GlobalPosition,drops);
 
-        if (drop != null) drop.taskCreatedForDrop = true;
+        if (drop != null) {
+            drop.taskCreatedForDrop = true;
+            return drop;
+        } else
+        {
+            // find through stroage buildings
+            List<Node> storageBuildings = sourceObject.GetTree().GetNodesInGroup("STORAGEBUILDING").ToList();
+            storageBuildings = storageBuildings.Where(b => ((StorageBuilding) b).HasResource(type)).ToList();
+            StorageBuilding closestStorage = (StorageBuilding) Helper.FindClosestNode(sourceObject.GlobalPosition,storageBuildings);
 
-        return drop;
+            // create drop at storage
+            if (closestStorage != null)
+            {
+                drop = closestStorage.CreateDrop(type);
+                drop.taskCreatedForDrop = true;
+                //drop.Visible = false;
+                return drop;
+            }
+        }
+
+        failed = true;
+        return null;
     }
 
     public void DeliverResource()
     {
+        
         worker.currentTask = null;
         worker.drop = null;
         drop.QueueFree();
         Building source = sourceObject as Building;
         source.AddResourceToInventory(resourceType,1);
-        GD.Print("delivered");
     }
 }

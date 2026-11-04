@@ -125,9 +125,15 @@ public partial class Citizen : CharacterBody2D
         }
         if (jobManager.TaskDict.GetValueOrDefault(job).Count >= 1)
         {
-            wanderTimer.Stop();
             currentTask = jobManager.TaskDict.GetValueOrDefault(job).First();
             jobManager.TaskDict.GetValueOrDefault(job).Remove(currentTask);
+            if (currentTask.failed) { // remove and become idle if chosen task is invalid
+                currentTask = null;
+                currentAction = Action.IDLE;
+                return false;
+            }
+
+            wanderTimer.Stop();
             currentTask.worker = this;
             currentAction = Action.TASK;
             return true;

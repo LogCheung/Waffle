@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bh5xnx3hkn01g" path="res://Buildings/Scripts/StorageBuilding.cs" id="1_ijysn"]
 
-[node name="StorageBuilding" type="StaticBody2D" unique_id=1707926442 groups=["BUILDING"]]
+[node name="StorageBuilding" type="StaticBody2D" unique_id=1707926442 groups=["BUILDING", "STORAGEBUILDING"]]
 script = ExtResource("1_ijysn")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=17929360]

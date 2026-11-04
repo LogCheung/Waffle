@@ -16,10 +16,9 @@ public partial class StorageBuilding : Building
         entrance = GetNode<Node2D>("Entrance");
 
         maxCapacity = 100;
-        foreach (Colony.ResourceType type in Enum.GetValues(typeof(Colony.ResourceType)))
-        {
-            storageDict.Add(type, 0);
-        }
+
+        AddResourceToInventory(Colony.ResourceType.Wood, 10);
+        AddResourceToInventory(Colony.ResourceType.Stone, 10);
     }
 
     public bool IsFull()
@@ -34,8 +33,21 @@ public partial class StorageBuilding : Building
         {
             return true;
         }
-
         return false;
+    }
+
+    public Drop CreateDrop(Colony.ResourceType type)
+    {
+        PackedScene scene = GD.Load<PackedScene>("res://Resources/Scenes/drop.tscn");
+        Drop drop = (Drop) scene.Instantiate();
+        RemoveResourceFromInventory(type, 1);
+        
+        drop.GlobalPosition = GlobalPosition;
+        drop.type = type;
+        drop.forStorageRetrieval = true;
+        GetTree().GetFirstNodeInGroup("WORLD").AddChild(drop);
+        GD.Print("created");
+        return drop;
     }
 
     public void CreateTask(Colony.ResourceType type, Drop drop = null)
