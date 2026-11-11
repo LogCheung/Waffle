@@ -8,16 +8,15 @@ public partial class Task : Node
         FETCH,
         PRODUCE
     }
-     [Export] public ProductionObject sourceObject {get;set;} 
+     [Export] public StaticBody2D sourceObject {get;set;} 
      [Export] public Type type {get;set;}
      [Export] public Citizen worker {get;set;}
-     [Export] public bool failed {get;set;}
+     [Export] public bool failed {get;set;} = false;
 
      public Vector2 targetPos {get;set;}
 
-     public Task(ProductionObject source)
+     public Task(StaticBody2D source)
     {
         sourceObject = source;
-        this.type = type;
     }
 }

@@ -3,9 +3,11 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Construction : Building
+public partial class Construction : Building, ProductionObject
 {
     [Export] public InputButton.Type inputBuildType {get; set;}
+    [Export] public Colony.ResourceType type {get;set;} = Colony.ResourceType.None;
+    [Export] public float progress {get;set;}
 
 
     private Colony.BuildType buildType;
@@ -26,7 +28,7 @@ public partial class Construction : Building
         {
             for (int i = 0; i < kvp.Value; i++)
             {
-                CreateTask(kvp.Key);
+                CreateFetchTask(kvp.Key);
             }
         }
     }
@@ -36,8 +38,7 @@ public partial class Construction : Building
         base.AddResourceToInventory(type, amt);
         if (CheckIfConstructionComplete())
         {
-            GD.Print("construction complete");
-            //buildInfo.EmitSignal("ConstructionComplete", this);
+            CreateProduceTask();
         }
     }
 
@@ -47,13 +48,21 @@ public partial class Construction : Building
         {
             if (!storageDict.ContainsKey(kvp.Key) || storageDict[kvp.Key] < kvp.Value)
             {
-                GD.Print($"not enough {kvp.Key}: {storageDict.GetValueOrDefault(kvp.Key,0)}/{kvp.Value}");
                 return false;
             }
         }
-
-        GD.Print("omg");
         return true;
     }
+
+    public void Produce()
+    {
+        PackedScene scene = BuildInfo.buildScenes[buildType];
+        Building newBuilding = (Building) scene.Instantiate();
+        newBuilding.GlobalPosition = GlobalPosition;
+        GetTree().GetFirstNodeInGroup("BUILDINGNODE").AddChild(newBuilding);
+        QueueFree();
+    }
+
+
 
 }

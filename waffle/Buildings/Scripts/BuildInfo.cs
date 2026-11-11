@@ -14,4 +14,9 @@ public partial class BuildInfo : Node
         
     };
 
+    public static Dictionary<Colony.BuildType, PackedScene> buildScenes = new()
+    {
+        [Colony.BuildType.House] = GD.Load<PackedScene>("res://Buildings/Scenes/housing.tscn")
+    };
+
 }

@@ -17,8 +17,8 @@ public partial class StorageBuilding : Building
 
         maxCapacity = 100;
 
-        AddResourceToInventory(Colony.ResourceType.Wood, 10);
-        AddResourceToInventory(Colony.ResourceType.Stone, 10);
+        //AddResourceToInventory(Colony.ResourceType.Wood, 10);
+        //AddResourceToInventory(Colony.ResourceType.Stone, 10);
     }
 
     public bool IsFull()
@@ -46,9 +46,23 @@ public partial class StorageBuilding : Building
         drop.type = type;
         drop.forStorageRetrieval = true;
         GetTree().GetFirstNodeInGroup("WORLD").AddChild(drop);
-        GD.Print("created");
         return drop;
     }
+    public override void AddResourceToInventory(Colony.ResourceType type, int amt)
+    {
+        base.AddResourceToInventory(type, amt);
+
+        // check requests
+        List<Request> requests = jobManager.RequestList;
+        foreach (Request r in requests)
+        {
+            if (r.resourceType == type)
+            {
+                r.FullfillRequest(CreateDrop(type));
+            }
+        }
+    }
+
 
     public void CreateTask(Colony.ResourceType type, Drop drop = null)
     {

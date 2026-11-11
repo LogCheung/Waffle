@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class Building : ProductionObject
+public abstract partial class Building : StaticBody2D, TaskObject
 {
+    [Export] public Colony.Job jobType {get;set;}
+    [Export] public Vector2I tile {get;set;}
     protected Dictionary<Colony.ResourceType,int> storageDict = new Dictionary<Colony.ResourceType, int>();
 
     public override void _Ready()
@@ -17,8 +19,6 @@ public partial class Building : ProductionObject
 
     public virtual void AddResourceToInventory(Colony.ResourceType type, int amt)
     {
-        GD.Print($"adding {amt} {type} to inventory");
-        GD.Print(storageDict.ContainsKey(type));
         storageDict[type] += amt;
     }
     public virtual void RemoveResourceFromInventory(Colony.ResourceType type, int amt)
@@ -43,9 +43,17 @@ public partial class Building : ProductionObject
         return false;
     }
 
-    public virtual void CreateTask(Colony.ResourceType type)
+    public virtual void CreateFetchTask(Colony.ResourceType type)
     {
-        FetchTask newTask = new FetchTask(this, type);
+        // Create request for resource, FetchTask will created once request fulfilled
+        Request newRequest = new Request(type, this, jobType);
+        JobManager jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
+        jobManager.AddRequest(newRequest);
+    }
+
+    public virtual void CreateProduceTask()
+    {
+        ProduceTask newTask = new ProduceTask(this);
         JobManager jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
         jobManager.AddTask(Colony.Job.Laborer,newTask);
     }

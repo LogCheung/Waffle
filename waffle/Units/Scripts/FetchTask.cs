@@ -14,7 +14,7 @@ public partial class FetchTask : Task
     public bool resourceRetrieved {get;set;}
     
 
-    public FetchTask(ProductionObject source, Colony.ResourceType type, Drop drop = null) : base(source)
+    public FetchTask(StaticBody2D source, Colony.ResourceType type, Drop drop = null) : base(source)
     {
         resourceRetrieved = false;
         resourceType = type;
@@ -58,7 +58,7 @@ public partial class FetchTask : Task
             {
                 drop = closestStorage.CreateDrop(type);
                 drop.taskCreatedForDrop = true;
-                //drop.Visible = false;
+                drop.Visible = false;
                 return drop;
             }
         }
@@ -69,7 +69,7 @@ public partial class FetchTask : Task
 
     public void DeliverResource()
     {
-        
+        GD.Print("done");
         worker.currentTask = null;
         worker.drop = null;
         drop.QueueFree();

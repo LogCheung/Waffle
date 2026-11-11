@@ -1,16 +1,13 @@
 using Godot;
 using System;
 
-public partial class ProductionObject : StaticBody2D
+public interface ProductionObject : TaskObject
 {
-    [Export] public Colony.ResourceType type {get;set;} 
-    [Export] public Colony.Job jobType {get;set;}
-
-    [Export] public Vector2I tile {get;set;} 
-    [Export] public float progress {get;set;}
+    Colony.ResourceType type {get;set;} 
+    float progress {get;set;}
 
 
-    public virtual void Produce()
+    void Produce()
     {
         GD.Print("how");
     }

@@ -1,3 +1,10 @@
 [gd_scene format=3 uid="uid://0b5x6kktadx5"]
 
+[ext_resource type="Texture2D" uid="uid://ep0gjwoo2r7e" path="res://Buildings/Assets/testHouse.png" id="1_g10o8"]
+[ext_resource type="Script" uid="uid://brlp541ex3hcj" path="res://Buildings/Scripts/Housing.cs" id="1_xcqff"]
+
 [node name="housing" type="StaticBody2D" unique_id=1177764209]
+script = ExtResource("1_xcqff")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1472092640]
+texture = ExtResource("1_g10o8")

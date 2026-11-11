@@ -2,8 +2,13 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Harvestable: ProductionObject
+public partial class Harvestable: StaticBody2D, ProductionObject
 {
+    [Export] public Colony.ResourceType type {get;set;} 
+    [Export] public Colony.Job jobType {get;set;}
+
+    [Export] public Vector2I tile {get;set;} 
+    [Export] public float progress {get;set;}
     [Export] public int rewardAmount {get;set;}
     public static Dictionary<Vector2I,Harvestable> ObjectMap = new Dictionary<Vector2I, Harvestable>();
     private Sprite2D sprite;
@@ -38,7 +43,7 @@ public partial class Harvestable: ProductionObject
         }
     }
 
-    public override void Produce()
+    public void Produce()
     {
         // create drops
         World world = (World) GetTree().GetFirstNodeInGroup("WORLD");
