@@ -125,7 +125,7 @@ public partial class TileWorld : TileMapLayer
 
                 newNode.tile = cell;
                 newNode.GlobalPosition = MapToLocal(cell);
-                newNode.type = key;
+                newNode.productionType = key;
                 parentNode.AddChild(newNode);
             }
         }

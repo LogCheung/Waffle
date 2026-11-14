@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class StorageBuilding : Building
 {
@@ -38,23 +39,18 @@ public partial class StorageBuilding : Building
 
     public Drop CreateDrop(Colony.ResourceType type)
     {
-        PackedScene scene = GD.Load<PackedScene>("res://Resources/Scenes/drop.tscn");
-        Drop drop = (Drop) scene.Instantiate();
+        Drop createdDrop = Helper.CreateDrop(GlobalPosition,type,GetTree().GetFirstNodeInGroup("WORLD"), false);
+        createdDrop.forStorageRetrieval = true;
         RemoveResourceFromInventory(type, 1);
         
-        drop.GlobalPosition = GlobalPosition;
-        drop.type = type;
-        drop.forStorageRetrieval = true;
-        GetTree().GetFirstNodeInGroup("WORLD").AddChild(drop);
-        return drop;
+        return createdDrop;
     }
     public override void AddResourceToInventory(Colony.ResourceType type, int amt)
     {
         base.AddResourceToInventory(type, amt);
 
         // check requests
-        List<Request> requests = jobManager.RequestList;
-        foreach (Request r in requests)
+        foreach (Request r in jobManager.RequestList.ToList())
         {
             if (r.resourceType == type)
             {

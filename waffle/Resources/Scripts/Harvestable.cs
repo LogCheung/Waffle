@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public partial class Harvestable: StaticBody2D, ProductionObject
 {
-    [Export] public Colony.ResourceType type {get;set;} 
+    [Export] public Colony.ResourceType productionType {get;set;} 
     [Export] public Colony.Job jobType {get;set;}
 
     [Export] public Vector2I tile {get;set;} 
@@ -21,14 +21,14 @@ public partial class Harvestable: StaticBody2D, ProductionObject
         ObjectMap.Add(this.tile, this);
         sprite = GetNode<Sprite2D>("Sprite2D");
         jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
-        sprite.Frame = (int) type ;
+        sprite.Frame = (int) productionType ;
 
         MatchType();
     }
 
     private void MatchType()
     {
-        switch (type)
+        switch (productionType)
         {
             case Colony.ResourceType.Wood:
                 rewardAmount = GD.RandRange(3,5);
@@ -49,19 +49,14 @@ public partial class Harvestable: StaticBody2D, ProductionObject
         World world = (World) GetTree().GetFirstNodeInGroup("WORLD");
         for (int i = 0; i < rewardAmount; i++)
         {
-            PackedScene scene = GD.Load<PackedScene>("res://Resources/Scenes/drop.tscn");
-            Drop drop = (Drop) scene.Instantiate();
-            
-            drop.GlobalPosition = GlobalPosition;
-            drop.type = this.type;
-            world.AddChild(drop);
+            Helper.CreateDrop(GlobalPosition,this.productionType, world);
         }
 
-        if (type == Colony.ResourceType.Berries) return;
+        if (productionType == Colony.ResourceType.Berries) return;
         Remove();
     }
 
-    public void CreateTask()
+    public virtual void CreateTask()
     {
         Task newTask = new ProduceTask(this);
         jobManager.TaskDict.GetValueOrDefault(jobType).Add(newTask);

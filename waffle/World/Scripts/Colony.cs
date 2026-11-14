@@ -8,6 +8,9 @@ public partial class Colony : Node
         Wood, 
         Stone, 
         Berries,
+        Wheat,
+        Flour,
+        Bread,
         None
     }
 
@@ -16,10 +19,14 @@ public partial class Colony : Node
         // InputButton has additional types for non-building options
         None,
         House,
+        FlourMill,
+        Bakery,
     }
 
     public enum Job
     {
-        Laborer
+        Laborer,
+        Farmer,
+
     }
 }

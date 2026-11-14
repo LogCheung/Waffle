@@ -2,9 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Godot.Collections;
-using System.Numerics;
-using System.Reflection;
-using System.Text.Json.Serialization.Metadata;
 
 public partial class InputNode : Node
 {
@@ -181,6 +178,11 @@ public partial class InputNode : Node
         construction.GlobalPosition = tileWorld.MapToLocal(tile) - new Godot.Vector2(32,32);
 
         buildingNode.AddChild(construction);
+    }
+
+    private void CreateWorkArea(Vector2 start, Vector2  end, Vector2 pos)
+    {
+        
     }
 
 

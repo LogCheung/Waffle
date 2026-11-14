@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public partial class Construction : Building, ProductionObject
 {
     [Export] public InputButton.Type inputBuildType {get; set;}
-    [Export] public Colony.ResourceType type {get;set;} = Colony.ResourceType.None;
+    [Export] public Colony.ResourceType productionType {get;set;} = Colony.ResourceType.None;
     [Export] public float progress {get;set;}
 
 
@@ -17,7 +17,7 @@ public partial class Construction : Building, ProductionObject
     {
         base._Ready();
         buildType = (Colony.BuildType) inputBuildType;
-        requiredResources = BuildInfo.recipes[buildType];
+        requiredResources = BuildInfo.buildRecipes[buildType];
 
         StartConstruction();
     }

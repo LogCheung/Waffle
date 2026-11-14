@@ -19,7 +19,7 @@ public partial class FetchTask : Task
         resourceRetrieved = false;
         resourceType = type;
         // find resource
-        this.drop = drop == null ? (Drop) FindResource(type) : drop;
+        this.drop = drop;
         
         if (this.drop == null)
         {
@@ -69,7 +69,6 @@ public partial class FetchTask : Task
 
     public void DeliverResource()
     {
-        GD.Print("done");
         worker.currentTask = null;
         worker.drop = null;
         drop.QueueFree();

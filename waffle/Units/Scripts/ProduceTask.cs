@@ -19,6 +19,7 @@ public partial class ProduceTask : Task
             worker.currentTask = null;
 
             // source must be a task object to produce something and to make this task
+            if (!IsInstanceValid(sourceObject)) return;
             TaskObject source = (TaskObject) sourceObject;
             source.Produce();
         }

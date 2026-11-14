@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Task : Node
 {
@@ -8,6 +9,8 @@ public partial class Task : Node
         FETCH,
         PRODUCE
     }
+    public static List<int> TaskIDs = new List<int>();
+    public int ID {get;set;}
      [Export] public StaticBody2D sourceObject {get;set;} 
      [Export] public Type type {get;set;}
      [Export] public Citizen worker {get;set;}
@@ -17,6 +20,13 @@ public partial class Task : Node
 
      public Task(StaticBody2D source)
     {
+        ID = GD.RandRange(0,40000);
+        while (TaskIDs.Contains(ID))
+        {
+            ID = GD.RandRange(0,4000);
+        }
+        TaskIDs.Add(ID);
+
         sourceObject = source;
     }
 }

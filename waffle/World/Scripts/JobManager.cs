@@ -6,7 +6,9 @@ using System.Linq;
 public partial class JobManager : Node
 {
     public Dictionary<Colony.Job,List<Task>> TaskDict = new Dictionary<Colony.Job, List<Task>>();
-    public List<Request> RequestList = new List<Request>();
+    public List<Request> RequestList {get;set;} = new List<Request>();
+    public Dictionary<Colony.Job,List<Citizen>> WorkerDict = new Dictionary<Colony.Job, List<Citizen>>();
+    
 
     public override void _Ready()
     {
@@ -22,7 +24,6 @@ public partial class JobManager : Node
     }
 
 
-
     public void AddTask(Colony.Job job, Task task)
     {   
         TaskDict.GetValueOrDefault(job).Add(task);
@@ -30,6 +31,7 @@ public partial class JobManager : Node
 
     public void AddRequest(Request request)
     {
+        
         RequestList.Add(request);
     }
 }

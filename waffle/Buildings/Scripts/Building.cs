@@ -8,6 +8,7 @@ public abstract partial class Building : StaticBody2D, TaskObject
     [Export] public Colony.Job jobType {get;set;}
     [Export] public Vector2I tile {get;set;}
     protected Dictionary<Colony.ResourceType,int> storageDict = new Dictionary<Colony.ResourceType, int>();
+    protected List<Request> outgoingRequests {get;set;} = new List<Request>();
 
     public override void _Ready()
     {
@@ -48,6 +49,7 @@ public abstract partial class Building : StaticBody2D, TaskObject
         // Create request for resource, FetchTask will created once request fulfilled
         Request newRequest = new Request(type, this, jobType);
         JobManager jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
+        outgoingRequests.Add(newRequest);
         jobManager.AddRequest(newRequest);
     }
 

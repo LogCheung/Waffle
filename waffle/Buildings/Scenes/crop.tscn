@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dshgack0xbvv"]
+
+[ext_resource type="Script" uid="uid://b0qg6guo05sn3" path="res://Buildings/Scripts/Crop.cs" id="1_uyoad"]
+
+[node name="Crop" type="StaticBody2D" unique_id=1199528515]
+script = ExtResource("1_uyoad")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1104612434]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+color = Color(1.4198571e-05, 0.7969799, 0.26321045, 1)
+
+[node name="Label" type="Label" parent="." unique_id=2008917462]
+offset_left = -17.0
+offset_top = -12.0
+offset_right = 23.0
+offset_bottom = 11.0
+text = "crop"

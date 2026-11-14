@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class Request : Node
+public partial class Request
 {
     public Colony.ResourceType resourceType {get;set;}
+    public int Priority;
+    public bool paused = false;
     public StaticBody2D sourceObject {get;set;}
     private Colony.Job jobType {get;set;}
     private JobManager jobManager {get;set;}
@@ -49,6 +51,8 @@ public partial class Request : Node
 
     public void FullfillRequest(Drop drop)
     {
+        // verify task has not been created for drop
+        if (drop.taskCreatedForDrop) return;
         // Create fetch task for laborer
         FetchTask newTask = new FetchTask(sourceObject, resourceType,drop);
         jobManager.AddTask(jobType,newTask);
