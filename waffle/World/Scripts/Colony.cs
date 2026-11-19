@@ -27,6 +27,8 @@ public partial class Colony : Node
     {
         Laborer,
         Farmer,
+        Miller,
+        Baker
 
     }
 }

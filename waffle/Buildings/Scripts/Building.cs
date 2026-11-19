@@ -6,9 +6,13 @@ using System.Linq;
 public abstract partial class Building : StaticBody2D, TaskObject
 {
     [Export] public Colony.Job jobType {get;set;}
+    [Export] public Colony.BuildType buildType {get;set;}
     [Export] public Vector2I tile {get;set;}
+    [Export] public bool paused {get;set;}
+    public static Dictionary<Vector2I,Building> ObjectMap = new Dictionary<Vector2I, Building>();
     protected Dictionary<Colony.ResourceType,int> storageDict = new Dictionary<Colony.ResourceType, int>();
     protected List<Request> outgoingRequests {get;set;} = new List<Request>();
+    protected List<Task> outgoingTasks {get;set;} = new List<Task>();
 
     public override void _Ready()
     {
@@ -17,6 +21,7 @@ public abstract partial class Building : StaticBody2D, TaskObject
             storageDict[type] = 0;
         }
     }
+
 
     public virtual void AddResourceToInventory(Colony.ResourceType type, int amt)
     {
@@ -58,6 +63,11 @@ public abstract partial class Building : StaticBody2D, TaskObject
         ProduceTask newTask = new ProduceTask(this);
         JobManager jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
         jobManager.AddTask(Colony.Job.Laborer,newTask);
+    }
+
+    public virtual void RecordTask(Task task)
+    {
+        outgoingTasks.Add(task);
     }
 
 

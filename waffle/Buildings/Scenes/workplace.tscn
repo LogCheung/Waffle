@@ -2,17 +2,22 @@
 
 [ext_resource type="Script" uid="uid://ibaa0q216s8l" path="res://Buildings/Scripts/Workplace.cs" id="1_8phm7"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_67pyh"]
+font_color = Color(0, 0, 0, 1)
+
 [node name="Workplace" type="StaticBody2D" unique_id=1246791176]
 script = ExtResource("1_8phm7")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=900811552]
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -64.0
+offset_top = -65.0
+offset_right = 64.0
+offset_bottom = 63.0
+color = Color(0.9667242, 0.70610124, 0.5570173, 1)
 
 [node name="Label" type="Label" parent="." unique_id=1603201225]
 offset_left = -20.0
 offset_top = -11.0
 offset_right = 20.0
 offset_bottom = 12.0
+label_settings = SubResource("LabelSettings_67pyh")

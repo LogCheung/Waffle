@@ -6,7 +6,11 @@ public partial class InputButton : Button
     public enum Type {
         None,
         House,
-        SelectHarvest,
+        FlourMill,
+        Bakery,
+
+        // non building inputs
+         SelectHarvest,
 
     }
     [Export] public Type type;

@@ -9,9 +9,15 @@ public partial class Task : Node
         FETCH,
         PRODUCE
     }
+    public enum Priority
+    {
+        HIGH,
+        LOW,
+    }
     public static List<int> TaskIDs = new List<int>();
     public int ID {get;set;}
      [Export] public StaticBody2D sourceObject {get;set;} 
+     [Export] public Priority priority {get;set;} = Priority.HIGH;
      [Export] public Type type {get;set;}
      [Export] public Citizen worker {get;set;}
      [Export] public bool failed {get;set;} = false;

@@ -15,17 +15,19 @@ public partial class Drop : StaticBody2D
     private Vector2 dir {get;set;}
     private Sprite2D sprite;
     private JobManager jobManager;
-
+    public int ID {get;set;}
     public override async void _Ready()
     {
+        ID = GD.RandRange(0,40000);
         jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
         sprite = GetNode<Sprite2D>("Sprite2D");
         sprite.Frame = (int) type;
         
         if (forStorageRetrieval) return;
-
         Launch();
         if (TryFulfillRequest()) return;
+        if (taskCreatedForDrop) return;
+
 
         // find Storage building
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -54,6 +56,8 @@ public partial class Drop : StaticBody2D
 
     private void SendToNearestStorage()
     {
+        if (TryFulfillRequest()) return;
+
         List<Node> nodes = GetTree().GetNodesInGroup("BUILDING").Where(x => x is StorageBuilding).ToList();
         Node node = Helper.FindClosestNode(GlobalPosition, nodes);
         StorageBuilding storage = node as StorageBuilding;
@@ -61,16 +65,7 @@ public partial class Drop : StaticBody2D
     }
 
     private bool TryFulfillRequest()
-    {
-        List<Request> requests = jobManager.RequestList;
-        foreach (Request r in requests)
-        {
-            if (r.resourceType == type)
-            {
-                r.FullfillRequest(this);
-                return true;
-            }
-        }
-        return false;
+    { 
+        return jobManager.FulfillRequest(this);
     }
 }

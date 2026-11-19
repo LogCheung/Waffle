@@ -2,16 +2,68 @@
 
 [ext_resource type="Script" uid="uid://bt3yonggt6kaj" path="res://UI/Scripts/Ui.cs" id="1_fr6qa"]
 [ext_resource type="PackedScene" uid="uid://rp74u7d0msil" path="res://UI/Scenes/InputButton.tscn" id="2_67pyh"]
+[ext_resource type="Script" uid="uid://dlnlxvgvh34rw" path="res://UI/Scripts/InfoTab.cs" id="3_5b7hf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_krodr"]
+font_size = 32
 
 [node name="UI" type="CanvasLayer" unique_id=1778856773 groups=["UI"]]
 script = ExtResource("1_fr6qa")
 
-[node name="InputButton" parent="." unique_id=700396121 instance=ExtResource("2_67pyh")]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1787376728]
+offset_left = 352.0
+offset_top = 639.0
+offset_right = 691.0
+offset_bottom = 703.0
+theme_override_constants/separation = 25
+
+[node name="InputButton" parent="HBoxContainer" unique_id=700396121 instance=ExtResource("2_67pyh")]
+custom_minimum_size = Vector2(60, 40)
+layout_mode = 2
+type = 4
+
+[node name="InputButton2" parent="HBoxContainer" unique_id=1755986031 instance=ExtResource("2_67pyh")]
+custom_minimum_size = Vector2(60, 40)
+layout_mode = 2
+type = 1
+
+[node name="InputButton3" parent="HBoxContainer" unique_id=86132811 instance=ExtResource("2_67pyh")]
+custom_minimum_size = Vector2(60, 40)
+layout_mode = 2
 type = 2
 
-[node name="InputButton2" parent="." unique_id=1755986031 instance=ExtResource("2_67pyh")]
-offset_left = 451.0
-offset_top = 646.0
-offset_right = 501.0
-offset_bottom = 688.0
-type = 1
+[node name="InputButton4" parent="HBoxContainer" unique_id=1999640012 instance=ExtResource("2_67pyh")]
+custom_minimum_size = Vector2(60, 40)
+layout_mode = 2
+type = 3
+
+[node name="InfoTab" type="Control" parent="." unique_id=1233898475]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1026.0
+offset_top = 160.0
+offset_right = 1280.0
+offset_bottom = 552.0
+script = ExtResource("3_5b7hf")
+
+[node name="Panel" type="Panel" parent="InfoTab" unique_id=1443089687]
+layout_mode = 0
+offset_right = 254.0
+offset_bottom = 384.0
+
+[node name="Label" type="Label" parent="InfoTab" unique_id=2058905886]
+layout_mode = 0
+offset_right = 254.0
+offset_bottom = 46.0
+text = "poo poo"
+label_settings = SubResource("LabelSettings_krodr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InfoTab" unique_id=873596588]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 222.0
+offset_right = 260.0
+offset_bottom = 262.0
+scale = Vector2(2, 2)

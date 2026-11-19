@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public partial class World : Node2D
 {
+    [Signal] public delegate void OnBuildingClickedEventHandler(Building building);
+
     private TileWorld tileWorld;
     private Camera2D cam;
     public Vector2I startTile = new Vector2I(0,0);
@@ -26,7 +28,8 @@ public partial class World : Node2D
     {
         if (@event.IsActionReleased("ui_accept"))
         {
-            StartGame();
+            GD.Print(GetTree().GetNodeCountInGroup("DROP"));
+            //StartGame();
         }
     }
     private async void StartGame()
@@ -69,7 +72,7 @@ public partial class World : Node2D
 
         Vector2 startPos = tileWorld.MapToLocal(startTile);
         cam.Position = startPos;
-        AddStartingCitizens(startPos, 120);
+        AddStartingCitizens(startPos, 15);
         AddStartingBuilding(startPos + new Vector2(64,64));
         AddStartingBuilding(startPos - new Vector2(64,64));
     }
@@ -78,12 +81,12 @@ public partial class World : Node2D
     {
         double distance = 100.0;
         int numOfCitizens = count;
+        Node2D citizenNode = (Node2D) GetTree().GetFirstNodeInGroup("CITIZENSNODE");
 
         for (int i = 0; i < numOfCitizens; i++)
         {
             PackedScene scene = GD.Load<PackedScene>("res://Units/Scenes/citizen.tscn");
             Citizen citizen = (Citizen) scene.Instantiate();
-            Node2D citizenNode = (Node2D) GetTree().GetFirstNodeInGroup("CITIZENSNODE");
 
             float randX = (float) GD.RandRange(-distance,distance);
             float randY = (float) GD.RandRange(-distance,distance);
@@ -92,6 +95,11 @@ public partial class World : Node2D
             citizenNode.AddChild(citizen);
             
         } 
+
+        // assign one to flour and baker
+        List<Node> citizens = citizenNode.GetChildren().Where(c=> c is Citizen).ToList();
+        (citizens[0] as Citizen).job = Colony.Job.Miller;
+        (citizens[1] as Citizen).job = Colony.Job.Baker;
         
     }
     private void AddStartingBuilding(Vector2 startPos)
@@ -101,6 +109,7 @@ public partial class World : Node2D
         Node2D buildingNode = (Node2D) GetTree().GetFirstNodeInGroup("BUILDINGNODE");
 
         building.GlobalPosition = startPos;
+        building.tile = tileWorld.LocalToMap(startPos);
         buildingNode.AddChild(building);
     }
     private void RemoveChildren(Node node)

@@ -6,6 +6,7 @@ using Godot.Collections;
 public partial class InputNode : Node
 {
     [Signal] public delegate void InputTypeRequestedEventHandler(InputButton.Type type);
+
     [Export] public InputButton.Type type;
     [Export] public bool dragging = false;
     private World world;
@@ -24,7 +25,6 @@ public partial class InputNode : Node
     private void OnInputTypeRequested(InputButton.Type type)
     {
         this.type = type;
-        GD.Print(this.type);
     }
 
     public override void _Process(double delta)
@@ -48,6 +48,8 @@ public partial class InputNode : Node
                 dragging = true;
                 break;
             case InputButton.Type.House:
+            case InputButton.Type.FlourMill:
+            case InputButton.Type.Bakery:
                 dragging = false;
                 xDim = BuildSettings.settings[this.type]["xDim"];
                 yDim = BuildSettings.settings[this.type]["yDim"];
@@ -56,6 +58,9 @@ public partial class InputNode : Node
                 HighlightArea(xDim,yDim,startTile);
                 break;
             default:
+                // basic selection
+                Vector2I tile = tileWorld.LocalToMap(tileWorld.GetLocalMousePosition());
+                if (Building.ObjectMap.ContainsKey(tile)) 
                 resultMethod = () => GD.Print("No input type selected");
                 return;
         }
@@ -180,9 +185,10 @@ public partial class InputNode : Node
         buildingNode.AddChild(construction);
     }
 
-    private void CreateWorkArea(Vector2 start, Vector2  end, Vector2 pos)
+    private void ShowBuildingInfo(Vector2I tile)
     {
-        
+        Building building = Building.ObjectMap[tile];
+        world.EmitSignal(World.SignalName.OnBuildingClicked,building);
     }
 
 

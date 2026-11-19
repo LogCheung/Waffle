@@ -11,6 +11,17 @@ public partial class BuildInfo : Node
             {Colony.ResourceType.Wood, 10},
             {Colony.ResourceType.Stone, 5}
         },
+        [Colony.BuildType.FlourMill] = new Dictionary<Colony.ResourceType,int>()
+        {
+            {Colony.ResourceType.Wood, 5},
+            {Colony.ResourceType.Stone, 5}
+        },
+        [Colony.BuildType.Bakery] = new Dictionary<Colony.ResourceType,int>()
+        {
+            {Colony.ResourceType.Wood, 15},
+            {Colony.ResourceType.Stone, 0}
+        },
+        
         
     };
 

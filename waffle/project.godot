@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 Colony="*uid://b06t1r7pr6o3i"
 BuildInfo="*uid://chmcxyp4vu5eh"
 Helper="*uid://ecnhxl0d4aal"
+PopulationManager="*uid://dd5nmvu8gnaul"
 
 [display]
 

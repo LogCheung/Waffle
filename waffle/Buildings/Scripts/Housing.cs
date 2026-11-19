@@ -8,19 +8,17 @@ public partial class Housing : Building
     [Export] public int housingCapacity {get;set;}
     public List<Citizen> residents {get;set;}
 
-    private PopulationManager populationManager;
 
     public override void _Ready()
     {
-        populationManager = (PopulationManager) GetTree().GetFirstNodeInGroup("POPULATIONMANAGER");
-        populationManager.households.Add(this);
+        PopulationManager.households.Add(this);
 
         TakeInCitizens();
     }
-
+    
     private void TakeInCitizens()
     {
-        List<Citizen> citizens = populationManager.citizens;
+        List<Citizen> citizens = PopulationManager.citizens;
         citizens = citizens.Where(c => c.home == null).ToList();
         
         foreach (Citizen resident in citizens)
@@ -31,5 +29,6 @@ public partial class Housing : Building
             resident.home = this;
         }
     }
+    
 
 }

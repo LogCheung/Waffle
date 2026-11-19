@@ -2,17 +2,19 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 public partial class Request
 {
     public Colony.ResourceType resourceType {get;set;}
     public int Priority;
     public bool paused = false;
-    public StaticBody2D sourceObject {get;set;}
+    public Building sourceObject {get;set;}
     private Colony.Job jobType {get;set;}
     private JobManager jobManager {get;set;}
+    public static int huh = 0;
 
-    public Request(Colony.ResourceType type, StaticBody2D source, Colony.Job jobType)
+    public Request(Colony.ResourceType type, Building source, Colony.Job jobType)
     {
         this.resourceType = type;
         sourceObject = source;
@@ -26,6 +28,7 @@ public partial class Request
 
     private void FindResource()
     {
+        huh++;
         // find through stroage buildings, filter storages to those with resource
         List<Node> storageBuildings = sourceObject.GetTree().GetNodesInGroup("STORAGEBUILDING").ToList();
         storageBuildings = storageBuildings.Where(b => ((StorageBuilding) b).HasResource(resourceType)).ToList();
@@ -35,28 +38,24 @@ public partial class Request
         if (closestStorage != null)
         {
             Drop drop = closestStorage.CreateDrop(resourceType);
-            drop.taskCreatedForDrop = true;
             drop.Visible = false;
 
             // Create fetch task for laborer
-            FetchTask newTask = new FetchTask(sourceObject, resourceType, drop);
-            jobManager.AddTask(jobType,newTask);
-            GD.Print($"Request for {resourceType} fulfilled");
+
+            //GD.Print($"Request for {resourceType} fulfilled");
             return;
         }
-
-
         return;
     }
 
     public void FullfillRequest(Drop drop)
     {
         // verify task has not been created for drop
-        if (drop.taskCreatedForDrop) return;
         // Create fetch task for laborer
         FetchTask newTask = new FetchTask(sourceObject, resourceType,drop);
         jobManager.AddTask(jobType,newTask);
-        jobManager.RequestList.Remove(this);
+        drop.taskCreatedForDrop = true;
+        JobManager.RequestList.Remove(this);
         GD.Print($"Request for {resourceType} fulfilled");
 
     }

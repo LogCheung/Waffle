@@ -41,6 +41,7 @@ public partial class FetchTask : Task
     {
         List<Node> drops = sourceObject.GetTree().GetNodesInGroup("DROP").ToList(); // use something in the tree
         drops = drops.Where(d => !((Drop) d).forStorageRetrieval).ToList();
+        drops = drops.Where(d => !((Drop) d).taskCreatedForDrop).ToList();
         Drop drop = (Drop) Helper.FindClosestNode(sourceObject.GlobalPosition,drops);
 
         if (drop != null) {

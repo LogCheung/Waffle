@@ -18,8 +18,9 @@ public partial class StorageBuilding : Building
 
         maxCapacity = 100;
 
-        //AddResourceToInventory(Colony.ResourceType.Wood, 10);
-        //AddResourceToInventory(Colony.ResourceType.Stone, 10);
+        AddResourceToInventory(Colony.ResourceType.Wheat, 10);
+        AddResourceToInventory(Colony.ResourceType.Wood, 10);
+        AddResourceToInventory(Colony.ResourceType.Stone, 10);
     }
 
     public bool IsFull()
@@ -50,7 +51,7 @@ public partial class StorageBuilding : Building
         base.AddResourceToInventory(type, amt);
 
         // check requests
-        foreach (Request r in jobManager.RequestList.ToList())
+        foreach (Request r in JobManager.RequestList.ToList())
         {
             if (r.resourceType == type)
             {

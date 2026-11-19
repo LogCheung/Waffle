@@ -31,6 +31,7 @@ public partial class Construction : Building, ProductionObject
                 CreateFetchTask(kvp.Key);
             }
         }
+        GD.Print(JobManager.RequestList.Count);
     }
 
     public override void AddResourceToInventory(Colony.ResourceType type, int amt)
@@ -58,7 +59,10 @@ public partial class Construction : Building, ProductionObject
     {
         PackedScene scene = BuildInfo.buildScenes[buildType];
         Building newBuilding = (Building) scene.Instantiate();
+        newBuilding.buildType = buildType;
         newBuilding.GlobalPosition = GlobalPosition;
+        newBuilding.tile = tile;
+        Building.ObjectMap.Add(tile,newBuilding);
         GetTree().GetFirstNodeInGroup("BUILDINGNODE").AddChild(newBuilding);
         QueueFree();
     }

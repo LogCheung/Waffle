@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public partial class PopulationManager : Node
 {
-    public List<Citizen> citizens = new List<Citizen>();
-    public List<Housing> households = new List<Housing>();
+    public static List<Citizen> citizens = new List<Citizen>();
+    public static List<Housing> households = new List<Housing>();
     
 }

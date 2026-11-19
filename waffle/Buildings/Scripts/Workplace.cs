@@ -10,9 +10,17 @@ public partial class Workplace : Building, ProductionObject
     [Export] public int maxProductCount {get;set;}
     [Export] public int maxInputCount {get;set;}
     [Export] public int inputThreshold {get;set;}
+    [Export] public int maxWorkers {get;set;} = 3;
+
+    private bool increasing;
     public override void _Ready()
     {
         base._Ready();
+
+        GetNode<Label>("Label").Text = buildType.ToString();
+
+        CreateDemand();
+        
     }
 
     public void Produce()
@@ -31,6 +39,18 @@ public partial class Workplace : Building, ProductionObject
         // recurring task
 
     }
+    public override void AddResourceToInventory(Colony.ResourceType type, int amt)
+    {
+        base.AddResourceToInventory(type, amt);
+        
+        CheckIncreasing();
+
+        foreach (Task t in outgoingTasks.Where(t=>t is FetchTask))
+        {
+            t.priority = increasing ? Task.Priority.HIGH : Task.Priority.LOW;
+        }
+    }
+
 
     private void CreateDemand()
     {
@@ -42,6 +62,29 @@ public partial class Workplace : Building, ProductionObject
                 CreateFetchTask(r);
             }
         }
+    }
+
+    private void CheckIncreasing()
+    {
+        bool thresholdReached = true;
+
+        List<Colony.ResourceType> inputTypes = recipe.inputs.Keys.ToList();
+        foreach (Colony.ResourceType r in inputTypes)
+        {
+            thresholdReached = storageDict[r] >= inputThreshold;
+
+            if (!thresholdReached)
+            {
+                increasing = true;
+                return;
+            }
+        }
+
+    }
+
+    public void AssignWorker()
+    {
+        
     }
 
 

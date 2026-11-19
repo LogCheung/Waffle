@@ -20,10 +20,10 @@ public partial class Citizen : CharacterBody2D
     [Export] public float speed {get;set;}
     [Export] public Drop drop {get;set;}
     [Export] public Housing home {get;set;}
+    [Export] public Workplace workplace {get;set;}
     private Timer wanderTimer;
     private JobManager jobManager;
     private NavigationAgent2D nav;
-    private PopulationManager populationManager;
 
     public override void _Ready()
     {
@@ -31,19 +31,17 @@ public partial class Citizen : CharacterBody2D
 
         wanderTimer = GetNode<Timer>("WanderTimer");
         jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
-        populationManager = (PopulationManager) GetTree().GetFirstNodeInGroup("POPULATIONMANAGER");
         nav = GetNode<NavigationAgent2D>("NavigationAgent2D");
 
         wanderTimer.Timeout += OnWanderTimeout;
 
-        populationManager.citizens.Add(this);
+        PopulationManager.citizens.Add(this);
     }
 
 
     public override void _Process(double delta)
     {
         handleAction();
-        if (currentTask != null) GD.Print(currentTask.ID);
     }
 
     private void handleAction()
@@ -141,6 +139,14 @@ public partial class Citizen : CharacterBody2D
         {
             return true;
         }
+
+        // Citizen occupation is tied to a building
+        if (IsInstanceValid(workplace))
+        {
+            
+        }
+
+        // Citizen occupation is not tied to a building
         if (jobManager.TaskDict.GetValueOrDefault(job).Count >= 1)
         {
             currentTask = jobManager.TaskDict.GetValueOrDefault(job).First();
