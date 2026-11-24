@@ -17,18 +17,19 @@ public partial class World : Node2D
         cam = GetNode<Camera2D>("Camera2D");
 
         StartGame();
+
     }
 
     public override void _Process(double delta)
     {
-        
+        //Engine.TimeScale = 8;
     }
 
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionReleased("ui_accept"))
         {
-            GD.Print(GetTree().GetNodeCountInGroup("DROP"));
+            //Engine.TimeScale = 2;
             //StartGame();
         }
     }
@@ -95,11 +96,6 @@ public partial class World : Node2D
             citizenNode.AddChild(citizen);
             
         } 
-
-        // assign one to flour and baker
-        List<Node> citizens = citizenNode.GetChildren().Where(c=> c is Citizen).ToList();
-        (citizens[0] as Citizen).job = Colony.Job.Miller;
-        (citizens[1] as Citizen).job = Colony.Job.Baker;
         
     }
     private void AddStartingBuilding(Vector2 startPos)
@@ -109,7 +105,7 @@ public partial class World : Node2D
         Node2D buildingNode = (Node2D) GetTree().GetFirstNodeInGroup("BUILDINGNODE");
 
         building.GlobalPosition = startPos;
-        building.tile = tileWorld.LocalToMap(startPos);
+        building.tiles = new List<Vector2I>{tileWorld.LocalToMap(startPos)};
         buildingNode.AddChild(building);
     }
     private void RemoveChildren(Node node)

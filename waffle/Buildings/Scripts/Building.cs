@@ -7,8 +7,8 @@ public abstract partial class Building : StaticBody2D, TaskObject
 {
     [Export] public Colony.Job jobType {get;set;}
     [Export] public Colony.BuildType buildType {get;set;}
-    [Export] public Vector2I tile {get;set;}
     [Export] public bool paused {get;set;}
+    public List<Vector2I> tiles {get;set;}
     public static Dictionary<Vector2I,Building> ObjectMap = new Dictionary<Vector2I, Building>();
     protected Dictionary<Colony.ResourceType,int> storageDict = new Dictionary<Colony.ResourceType, int>();
     protected List<Request> outgoingRequests {get;set;} = new List<Request>();
@@ -39,6 +39,15 @@ public abstract partial class Building : StaticBody2D, TaskObject
             if (storageDict[type] < 0) storageDict[type] = 0;
         }
     }
+    public virtual void RemoveRecipeInputsFromInventory(Recipe recipe)
+    {
+        List<Colony.ResourceType> inputTypes = recipe.inputs.Keys.ToList();
+        foreach (Colony.ResourceType r in inputTypes)
+        {
+            RemoveResourceFromInventory(r,recipe.inputs[r]);
+        }
+    }
+
 
     public bool HasResource(Colony.ResourceType type, int amt = 1)
     {
@@ -58,11 +67,19 @@ public abstract partial class Building : StaticBody2D, TaskObject
         jobManager.AddRequest(newRequest);
     }
 
-    public virtual void CreateProduceTask()
+    public virtual void CreateProduceTask(Colony.Job job = Colony.Job.Laborer)
     {
         ProduceTask newTask = new ProduceTask(this);
         JobManager jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
-        jobManager.AddTask(Colony.Job.Laborer,newTask);
+        jobManager.AddTask(job,newTask);
+        RecordTask(newTask);
+    }
+    public virtual void CreateDeliverTask(Colony.Job job, Building destination, Colony.ResourceType type)
+    {
+        DeliverTask newTask = new DeliverTask(this, destination,type);
+        JobManager jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
+        jobManager.AddTask(job ,newTask);
+        RecordTask(newTask);
     }
 
     public virtual void RecordTask(Task task)

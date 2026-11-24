@@ -8,6 +8,8 @@ custom_minimum_size = Vector2(32, 32)
 custom_maximum_size = Vector2(32, 32)
 offset_right = 32.0
 offset_bottom = 32.0
+toggle_mode = true
+flat = true
 script = ExtResource("1_hkj4w")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1465947233]

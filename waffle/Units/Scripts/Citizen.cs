@@ -36,6 +36,7 @@ public partial class Citizen : CharacterBody2D
         wanderTimer.Timeout += OnWanderTimeout;
 
         PopulationManager.citizens.Add(this);
+        JobManager.WorkerDict[Colony.Job.Laborer].Add(this);
     }
 
 
@@ -85,6 +86,16 @@ public partial class Citizen : CharacterBody2D
                         FetchTask task = currentTask as FetchTask;
                         if (!task.resourceRetrieved)  {
                             task.OnReosurceRetrieved();
+                            nav.TargetPosition = currentTask.targetPos;
+                        }
+                        else task.DeliverResource();
+                    }
+                    if (currentTask is DeliverTask)
+                    {
+                        DeliverTask task = currentTask as DeliverTask;
+                        GD.Print("deliverersrssddgfaf");
+                        if (!task.resourceRetrieved)  {
+                            task.OnSourceReached();
                             nav.TargetPosition = currentTask.targetPos;
                         }
                         else task.DeliverResource();
@@ -140,11 +151,19 @@ public partial class Citizen : CharacterBody2D
             return true;
         }
 
-        // Citizen occupation is tied to a building
+        //*/ Citizen occupation is tied to a building
         if (IsInstanceValid(workplace))
         {
-            
+            currentTask = workplace.GetTask();
+            if (currentTask == null) return false;
+            jobManager.TaskDict.GetValueOrDefault(job).Remove(currentTask);
+            currentTask.worker = this;
+            currentAction = Action.TASK;
+            nav.TargetPosition = currentTask.targetPos;
+            wanderTimer.Stop();
+            return true;
         }
+        //*/
 
         // Citizen occupation is not tied to a building
         if (jobManager.TaskDict.GetValueOrDefault(job).Count >= 1)
@@ -166,6 +185,16 @@ public partial class Citizen : CharacterBody2D
 
         currentAction = Action.IDLE;
         return false;
+    }
+
+    public void AssignJob(Colony.Job job, Workplace workplace)
+    {
+        JobManager.WorkerDict[this.job].Remove(this);
+        JobManager.WorkerDict[job].Add(this);
+
+        this.job = job;
+        if (job == Colony.Job.Laborer) this.workplace = null;
+        else this.workplace = workplace;
     }
 
 

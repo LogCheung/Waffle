@@ -12,7 +12,6 @@ public partial class Request
     public Building sourceObject {get;set;}
     private Colony.Job jobType {get;set;}
     private JobManager jobManager {get;set;}
-    public static int huh = 0;
 
     public Request(Colony.ResourceType type, Building source, Colony.Job jobType)
     {
@@ -21,14 +20,12 @@ public partial class Request
         this.jobType = jobType;
         this.jobManager = (JobManager) sourceObject.GetTree().GetFirstNodeInGroup("JOBMANAGER");
 
-
         // inital check for resource, otherwise it will be fulfilled later
         FindResource();
     }
 
     private void FindResource()
     {
-        huh++;
         // find through stroage buildings, filter storages to those with resource
         List<Node> storageBuildings = sourceObject.GetTree().GetNodesInGroup("STORAGEBUILDING").ToList();
         storageBuildings = storageBuildings.Where(b => ((StorageBuilding) b).HasResource(resourceType)).ToList();
@@ -54,6 +51,7 @@ public partial class Request
         // Create fetch task for laborer
         FetchTask newTask = new FetchTask(sourceObject, resourceType,drop);
         jobManager.AddTask(jobType,newTask);
+        sourceObject.RecordTask(newTask);
         drop.taskCreatedForDrop = true;
         JobManager.RequestList.Remove(this);
         GD.Print($"Request for {resourceType} fulfilled");

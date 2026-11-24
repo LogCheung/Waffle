@@ -17,7 +17,7 @@ public partial class Ui : CanvasLayer
 
     private void _OnBuildingClicked(Building building)
     {
-        
+        infoTab.Update(building);
     }
 
 

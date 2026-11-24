@@ -32,6 +32,12 @@ public partial class BuildInfo : Node
         [Colony.BuildType.Bakery] = GD.Load<PackedScene>("res://Buildings/Scenes/workplace.tscn")
     };
 
+    public static Dictionary<Colony.BuildType, Colony.Job> buildJobs = new()
+    {
+        [Colony.BuildType.FlourMill] = Colony.Job.Miller,
+        [Colony.BuildType.Bakery] = Colony.Job.Baker,
+    };
+
     // Recipes
     public static Dictionary<Colony.BuildType, List<Recipe>> produceRecipes = new()
     {

@@ -123,7 +123,7 @@ public partial class TileWorld : TileMapLayer
                 Harvestable newNode = scene.Instantiate<Harvestable>();
                 Node2D parentNode = (Node2D) GetTree().GetFirstNodeInGroup("HARVESTABLESNODE");
 
-                newNode.tile = cell;
+                newNode.tiles = new List<Vector2I>{cell};
                 newNode.GlobalPosition = MapToLocal(cell);
                 newNode.productionType = key;
                 parentNode.AddChild(newNode);

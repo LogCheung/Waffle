@@ -23,6 +23,7 @@ public partial class FetchTask : Task
         
         if (this.drop == null)
         {
+            GD.Print("wow it failed");
             failed = true;
             return;
         }

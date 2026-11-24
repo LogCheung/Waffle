@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://j1qxchxr77jo" path="res://Units/Scripts/Citizen.cs" id="1_y0etc"]
 
 [node name="Citizen" type="CharacterBody2D" unique_id=916153638]
+z_index = 1
+z_as_relative = false
 script = ExtResource("1_y0etc")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=384742259]

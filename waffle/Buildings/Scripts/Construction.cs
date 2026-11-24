@@ -61,8 +61,8 @@ public partial class Construction : Building, ProductionObject
         Building newBuilding = (Building) scene.Instantiate();
         newBuilding.buildType = buildType;
         newBuilding.GlobalPosition = GlobalPosition;
-        newBuilding.tile = tile;
-        Building.ObjectMap.Add(tile,newBuilding);
+        newBuilding.tiles = tiles;
+        foreach (Vector2I tile in tiles) Building.ObjectMap.Add(tile,newBuilding);
         GetTree().GetFirstNodeInGroup("BUILDINGNODE").AddChild(newBuilding);
         QueueFree();
     }

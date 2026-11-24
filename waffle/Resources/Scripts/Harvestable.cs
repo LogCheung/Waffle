@@ -6,10 +6,10 @@ public partial class Harvestable: StaticBody2D, ProductionObject
 {
     [Export] public Colony.ResourceType productionType {get;set;} 
     [Export] public Colony.Job jobType {get;set;}
-
-    [Export] public Vector2I tile {get;set;} 
     [Export] public float progress {get;set;}
     [Export] public int rewardAmount {get;set;}
+
+    public List<Vector2I> tiles {get;set;} 
     public static Dictionary<Vector2I,Harvestable> ObjectMap = new Dictionary<Vector2I, Harvestable>();
     private Sprite2D sprite;
     private JobManager jobManager;
@@ -18,7 +18,7 @@ public partial class Harvestable: StaticBody2D, ProductionObject
     {
         jobType = Colony.Job.Laborer;
 
-        ObjectMap.Add(this.tile, this);
+        foreach(Vector2I t in tiles) ObjectMap.Add(t, this);
         sprite = GetNode<Sprite2D>("Sprite2D");
         jobManager = (JobManager) GetTree().GetFirstNodeInGroup("JOBMANAGER");
         sprite.Frame = (int) productionType ;
@@ -65,7 +65,7 @@ public partial class Harvestable: StaticBody2D, ProductionObject
 
     public void Remove()
     {
-        ObjectMap.Remove(this.tile);
+        foreach(Vector2I t in tiles) ObjectMap.Remove(t);
         QueueFree();
     }
 

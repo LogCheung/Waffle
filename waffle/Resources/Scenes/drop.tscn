@@ -10,3 +10,4 @@ script = ExtResource("1_8kmmi")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1025322598]
 texture = ExtResource("2_2dbi4")
 hframes = 3
+vframes = 2

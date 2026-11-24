@@ -20,6 +20,7 @@ public partial class InfoTab : Control
         if (building == shownBuilding) // if current shown building is same
         {
             Visible = false;
+            shownBuilding = null;
             return;
         }
         if (!(building is Workplace)) return;
@@ -30,6 +31,7 @@ public partial class InfoTab : Control
             c.QueueFree();
         }
 
+        Visible = true;
         shownBuilding = building;
         Workplace shownWorkplace = building as Workplace;
         label.Text = building.buildType.ToString();
@@ -37,6 +39,8 @@ public partial class InfoTab : Control
         {
             PackedScene scene = GD.Load<PackedScene>("res://UI/Scenes/WorkerButton.tscn");
             WorkerButton button = (WorkerButton) scene.Instantiate();
+            button.workplace = shownWorkplace;
+            button.jobType = shownWorkplace.jobType;
             hContainer.AddChild(button);
         }
 

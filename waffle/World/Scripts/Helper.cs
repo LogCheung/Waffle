@@ -30,7 +30,7 @@ public partial class Helper : Node
         return GetTree().GetNodesInGroup(groupName).ToList();
     }
 
-    public static Drop CreateDrop(Vector2 pos, Colony.ResourceType type, Node parent, bool visible = true)
+    public static Drop CreateDrop(Vector2 pos, Colony.ResourceType type, Node parent, bool visible = true, bool storageRetrieval = false)
     {
         PackedScene scene = GD.Load<PackedScene>("res://Resources/Scenes/drop.tscn");
         Drop drop = (Drop) scene.Instantiate();
@@ -38,6 +38,7 @@ public partial class Helper : Node
         drop.GlobalPosition = pos;
         drop.type = type;
         drop.Visible = visible;
+        drop.forStorageRetrieval = storageRetrieval;
         parent.AddChild(drop);
 
         return drop;

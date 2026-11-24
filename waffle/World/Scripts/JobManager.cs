@@ -7,7 +7,7 @@ public partial class JobManager : Node
 {
     public Dictionary<Colony.Job,List<Task>> TaskDict = new Dictionary<Colony.Job, List<Task>>();
     public static List<Request> RequestList {get;set;} = new List<Request>();
-    public Dictionary<Colony.Job,List<Citizen>> WorkerDict = new Dictionary<Colony.Job, List<Citizen>>();
+    public static Dictionary<Colony.Job,List<Citizen>> WorkerDict = new Dictionary<Colony.Job, List<Citizen>>();
     
 
     public override void _Ready()
@@ -19,15 +19,12 @@ public partial class JobManager : Node
         }
     }
 
-    public override void _Process(double delta)
-    {
-        //GD.Print(string.Join(", ", TaskDict.Select(kvp => $"{kvp.Key}={kvp.Value.Count}")));
-    }
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionReleased("ui_accept"))
         {
-            GD.Print(TaskDict[Colony.Job.Laborer].Count + " what the fuck");
+            GD.Print(WorkerDict[Colony.Job.Miller].Count + " what the oof");
+            GD.Print(TaskDict[Colony.Job.Miller].Count + " what the fuck");
             //StartGame();
         }
     }
@@ -55,5 +52,12 @@ public partial class JobManager : Node
         }
 
         return false;
+    }
+
+    public Task GetTask(Workplace workplace = null)
+    {
+        
+
+        return null;
     }
 }

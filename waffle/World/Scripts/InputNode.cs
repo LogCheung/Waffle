@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Godot.Collections;
+using System.Linq;
 
 public partial class InputNode : Node
 {
@@ -59,8 +60,13 @@ public partial class InputNode : Node
                 break;
             default:
                 // basic selection
-                Vector2I tile = tileWorld.LocalToMap(tileWorld.GetLocalMousePosition());
-                if (Building.ObjectMap.ContainsKey(tile)) 
+                if (Input.IsActionJustReleased("select"))
+                {
+                    Vector2I tile = tileWorld.LocalToMap(tileWorld.GetLocalMousePosition());
+                    if (!Building.ObjectMap.ContainsKey(tile)) return;
+                    world.EmitSignal(World.SignalName.OnBuildingClicked,Building.ObjectMap[tile]);
+                }
+                
                 resultMethod = () => GD.Print("No input type selected");
                 return;
         }
@@ -179,8 +185,11 @@ public partial class InputNode : Node
         PackedScene scene = GD.Load<PackedScene>("res://Buildings/Scenes/construction.tscn");
         Construction construction = (Construction) scene.Instantiate();
         Node2D buildingNode = (Node2D) world.GetNode("BuildingNode");
+        construction.tiles = hoverTiles.GetUsedCells().ToList();
         construction.inputBuildType = this.type;
         construction.GlobalPosition = tileWorld.MapToLocal(tile) - new Godot.Vector2(32,32);
+
+
 
         buildingNode.AddChild(construction);
     }
